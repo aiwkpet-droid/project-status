@@ -48,6 +48,8 @@ export interface ProjectMetrics {
   currentMarginPercent: number;
   projectedMarginPercent: number;
   effectiveHourlyRate: number;
+  targetProfit: number;
+  minimumAcceptableProfit: number;
   maxSafeHoursForTargetMargin: number;
   remainingSafeHours: number;
   breakEvenHours: number;
@@ -55,6 +57,23 @@ export interface ProjectMetrics {
   requiredBudgetForTargetMargin: number;
   budgetGap: number;
   status: ProjectStatus;
+}
+
+export const STATUS_LABELS: Record<ProjectStatus, string> = {
+  healthy: 'Здоровий проєкт',
+  belowTarget: 'Нижче цільової маржі',
+  critical: 'Критичний ризик',
+  loss: 'Проєкт у мінусі',
+};
+
+export interface ProjectHistoryRecord {
+  id: string;
+  createdAt: string;
+  note?: string;
+  inputs: ProjectInputs;
+  metrics: ProjectMetrics & {
+    projectStatusLabel: string;
+  };
 }
 
 export const DEFAULT_INPUTS: ProjectInputs = {

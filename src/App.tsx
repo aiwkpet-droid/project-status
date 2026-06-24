@@ -1,4 +1,5 @@
 import { useProjectData } from './hooks/useProjectData';
+import { useProjectHistory } from './hooks/useProjectHistory';
 import { CURRENCY_SYMBOLS } from './types';
 import { StatusBadge } from './components/StatusBadge';
 import { MetricCard } from './components/MetricCard';
@@ -7,6 +8,7 @@ import { BudgetBreakdownChart } from './components/BudgetBreakdownChart';
 import { ProfitComparisonChart } from './components/ProfitComparisonChart';
 import { HoursControlChart } from './components/HoursControlChart';
 import { MarginIndicatorChart } from './components/MarginIndicatorChart';
+import { ProjectHistory } from './components/ProjectHistory';
 import './App.css';
 
 function getStatusRecommendation(status: string): string {
@@ -36,6 +38,14 @@ function getMetricVariant(status: string) {
 
 function App() {
   const { inputs, metrics, updateField, resetToDefaults } = useProjectData();
+  const {
+    history,
+    notification,
+    addSnapshot,
+    removeRecord,
+    clearAll,
+    exportToExcel,
+  } = useProjectHistory();
   const symbol = CURRENCY_SYMBOLS[inputs.currency];
 
   const fmt = (val: number) =>
@@ -153,6 +163,15 @@ function App() {
             </div>
             <HoursControlChart inputs={inputs} metrics={metrics} />
           </div>
+
+          <ProjectHistory
+            history={history}
+            notification={notification}
+            onSave={(note) => addSnapshot(inputs, metrics, note)}
+            onDelete={removeRecord}
+            onClearAll={clearAll}
+            onExport={exportToExcel}
+          />
         </main>
       </div>
     </div>

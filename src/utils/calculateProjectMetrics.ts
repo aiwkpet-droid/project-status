@@ -58,6 +58,7 @@ export function calculateProjectMetrics(inputs: ProjectInputs): ProjectMetrics {
     inputs.hourlyRate * (1 + inputs.artDirectionPercent / 100 + inputs.managementPercent / 100);
 
   const targetProfit = totalProjectBudget * inputs.targetMarginPercent / 100;
+  const minimumAcceptableProfit = totalProjectBudget * inputs.minimumMarginPercent / 100;
   const maxAllowedCostForTargetMargin = totalProjectBudget - targetProfit;
   const maxAllowedDesignRelatedCost = maxAllowedCostForTargetMargin - nonDesignCosts;
 
@@ -110,6 +111,8 @@ export function calculateProjectMetrics(inputs: ProjectInputs): ProjectMetrics {
     currentMarginPercent,
     projectedMarginPercent,
     effectiveHourlyRate,
+    targetProfit,
+    minimumAcceptableProfit,
     maxSafeHoursForTargetMargin,
     remainingSafeHours,
     breakEvenHours,
